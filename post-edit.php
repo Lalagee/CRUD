@@ -8,49 +8,129 @@ if(!isset($_SESSION['userid'])){
         header('location: Login.php');
 }
 //connect to database
-$host = "localhost";
+class connectdb 
+{
+  public function setconnection()
+  {
+    $host = "localhost";
 $username = "newroot";
 $password = "Test@321";
 $dbname = "phptrainee";
 $connection = mysqli_connect($host,$username,$password,$dbname);
-
-
 if(mysqli_connect_errno()){
 die("database connection failed. Error Number:" .
 mysqli_connect_errno()." Error Type.".mysqli_connect_error());
-}
-if(isset($_GET['postid']) && $_GET['action'] =="edit"){
-                        
-    $lpostid =$_GET['postid'];
-if (isset($_POST['submit'])){ 
-    $ftitle = $_POST['name'];
-    $fdesc = $_POST['desc'];
-     // echo $lpostid;
-     // echo $ftitle;
-     // echo $fdesc;
-     // die();
+                          }
+        return $connection;
 
-    $query = " UPDATE Post set title = '$ftitle' , Description = '$fdesc' where Pid = '$lpostid'";
+  }
+}
+
+class dbfunction extends connectdb 
+{
+    public $result1;
+
+
+
+
+
+  public function loginfunction($email,$pwd,$connection)
+  {
+    
+  
+
+        $query = "SELECT id,Uemail,Upass FROM `userregis` WHERE Uemail = '$email' ";
+
+        $result = mysqli_query($connection,$query);
+  
+        $rowcount = mysqli_num_rows($result);
+         if($rowcount == 0)
+          {
+            echo "Email is Not register";
+          }
+       else
+           {
+            while ($col = mysqli_fetch_array($result))
+                 {
+                  $did = $col['id'];
+                  $dpwd = $col['Upass'];
+                  $demail = $col['Uemail'];
+                  if($dpwd == $pwd)
+                     {
+                      session_start();
+                      $_SESSION['userid'] = $did;
+                      $_SESSION['uemail'] = $demail;
+                      $check = $_SESSION['userid'];
+                      
+                      if($check)
+                        {
+                          header('location: index.php');
+                        }
+                      }
+                  else
+                    echo "Password is Incorrect";
+                 }
+           }
+              mysqli_free_result($result);
+              mysqli_close($connection);      
+      
+
+  }
+  public function DeletePost($postid,$connection)
+  {
+    $query = "delete from Post where Pid = '$postid' ";
     
     $result = mysqli_query($connection,$query);
     if($result)
-        { echo "Update Sucessfully";}
+        { echo "One Post Deleted Sucessfully";}
 
-    //var_dump($query);
-    //die;
+  }
+  public function EditPost($postid,$ftitle,$fdesc,$connection)
+  {
     
-  
+    
+        $query = " UPDATE Post set title = '$ftitle' , Description = '$fdesc' where Pid = '$postid'";
+        $result = mysqli_query($connection,$query);
+        if($result)
+        echo "Update Sucessfully";
+    
+    
+  }
+  // public function ViewPost($postid,$connection)
+  // {
+  //   $query = "SELECT Pid, title, Description FROM `Post` WHERE Pid = '$postid'";
+
+  //   $result1 = mysqli_query($connection,$query);
+  //   this->result1 = $result1;
+
+
+  // } 
 }
 
+if(isset($_GET['postid']) && $_GET['action'] =="edit")
+{
+    $conn = new connectdb;
+    $connection =$conn->setconnection();
+    
+    $postid =$_GET['postid'];
+    if (isset($_POST['submit']))
+    {
+        $ftitle = $_POST['name'];
+        $fdesc = $_POST['desc'];
 
-        $postid =$_GET['postid'];
+    $efun = new dbfunction;
+    $efun->EditPost($postid,$ftitle,$fdesc,$connection);
+    }
+
+    $postid =$_GET['postid'];
     
-        $query = "SELECT Pid, title, Description FROM `Post` WHERE Pid = '$postid'";
-//var_dump($query);
-//die;
-    
-    //$result = mysqli_query($connection,$query);
-        $result1 = mysqli_query($connection,$query);
+    $query = "SELECT Pid, title, Description FROM `Post` WHERE Pid = '$postid'";
+
+      $result1 = mysqli_query($connection,$query);
+
+        //$vefun = new dbfunction;
+        // $efun->ViewPost($postid,$connection);
+        // $result1=$efun->result1;
 
       //if(empty($result)){
         //echo "Invalid Email";
@@ -72,29 +152,11 @@ if (isset($_POST['submit'])){
                     }
               }
 
+    
+
       
 
-    //var_dump($query);
-    //die;
-    
-
-  
-//   if(isset($_GET['postid']) && $_GET['action'] =="delete")
-//   {
-//     $postid =$_GET['postid'];
-//     $query = "delete from Post where Pid = '$postid' ";
-// //var_dump($query);
-// //die;
-    
-//     $result = mysqli_query($connection,$query);
-//     if($result)
-//         { echo "One Post Deleted Sucessfully";}
-
-//     //var_dump($query);
-//     //die;
-    
-//   }
-
+}    
 ?>
 
 <!DOCTYPE html>
@@ -197,6 +259,4 @@ include 'sidebar.php';
 <script src="public/graindashboard/js/graindashboard.vendor.js"></script>
 
 </body>
-</html><?php
-}
-?>
+</html>

@@ -1,40 +1,28 @@
 <?php
 session_start();
+
         if(isset($_SESSION['userid']))
           {
 
         header('location: index.php');
           }  
 
-// Connection to database
-$host = "localhost";
-$username = "newroot";
-$password = "Test@321";
-$dbname = "phptrainee";
-$connection = mysqli_connect($host,$username,$password,$dbname);
-
-if(mysqli_connect_errno()){
-die("database connection failed. Error Number:" .
-mysqli_connect_errno()." Error Type.".mysqli_connect_error());
-}
-//include 'connectdb.php';
-
-
-if (isset($_POST['Login']))
+class dbfunction
 {
-  $email = $_POST['email'];
-  $pwd = $_POST['password'];
+  public function loginfunction($email,$pwd,$connection)
+  {
+    
   
 
-  $query = "SELECT id,Uemail,Upass FROM `userregis` WHERE Uemail = '$email' ";
+        $query = "SELECT id,Uemail,Upass FROM `userregis` WHERE Uemail = '$email' ";
 
-  $result = mysqli_query($connection,$query);
-	
-  $rowcount = mysqli_num_rows($result);
-       if($rowcount == 0)
-       {
-        echo "Email is Not register";
-       }
+        $result = mysqli_query($connection,$query);
+  
+        $rowcount = mysqli_num_rows($result);
+         if($rowcount == 0)
+          {
+            echo "Email is Not register";
+          }
        else
            {
             while ($col = mysqli_fetch_array($result))
@@ -58,8 +46,41 @@ if (isset($_POST['Login']))
                     echo "Password is Incorrect";
                  }
            }
-  mysqli_free_result($result);
-  mysqli_close($connection);      
+              mysqli_free_result($result);
+              mysqli_close($connection);      
+      
+
+  }
+}
+
+class connectdb extends dbfunction
+{
+  public function setconnection()
+  {
+    $host = "localhost";
+$username = "newroot";
+$password = "Test@321";
+$dbname = "phptrainee";
+$connection = mysqli_connect($host,$username,$password,$dbname);
+if(mysqli_connect_errno()){
+die("database connection failed. Error Number:" .
+mysqli_connect_errno()." Error Type.".mysqli_connect_error());
+                          }
+        return $connection;
+
+  }
+}
+
+
+if (isset($_POST['Login']))
+{
+  $email = $_POST['email'];
+  $pwd = $_POST['password'];
+  $conn = new connectdb;
+  $connection =$conn->setconnection();
+  $logfun = new dbfunction;
+  $logfun->loginfunction($email,$pwd,$connection);
+
 }
 
 ?>

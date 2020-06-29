@@ -3,13 +3,11 @@
             <!-- Title -->
             <li class="sidebar-heading h6">Dashboard</li>
             <!-- End Title -->
-
             <!-- Dashboard -->
             
             <!-- Title -->
             
             <!-- End Title -->
-
             <!-- Users -->
             <li class="side-nav-menu-item side-nav-has-menu">
                 <a class="side-nav-menu-link media align-items-center" href="#"
@@ -23,20 +21,18 @@
               </span>
                     <span class="side-nav__indicator side-nav-fadeout-on-closed"></span>
                 </a>
-
                 <!-- Users: subUsers -->
                 <ul id="subUsers" class="side-nav-menu side-nav-menu-second-level mb-0">
                     <li class="side-nav-menu-item">
                         <a class="side-nav-menu-link" href="posts.php">All Posts</a>
                     </li>
                     <li class="side-nav-menu-item">
-                        <a class="side-nav-menu-link" href="post-edit.php">Add new</a>
+                        <a class="side-nav-menu-link" href="addpost.php">Add new Post</a>
                     </li>
                 </ul>
                 <!-- End Users: subUsers -->
             </li>
             <!-- End Users -->
-
             <!-- Authentication -->
             <li class="side-nav-menu-item side-nav-has-menu">
                 <a class="side-nav-menu-link media align-items-center" href="#"
@@ -50,7 +46,6 @@
               </span>
                     <span class="side-nav__indicator side-nav-fadeout-on-closed"></span>
                 </a>
-
                 <!-- Pages: subPages -->
                 <ul id="subPages" class="side-nav-menu side-nav-menu-second-level mb-0">
                     <li class="side-nav-menu-item">
@@ -72,7 +67,6 @@
                 <!-- End Pages: subPages -->
             </li>
             <!-- End Authentication -->
-
             <!-- Settings -->
             <li class="side-nav-menu-item">
                 <a class="side-nav-menu-link media align-items-center" href="settings.html">
@@ -83,10 +77,8 @@
                 </a>
             </li>
             <!-- End Settings -->
-
             <!-- Static -->
             
             <!-- End Static -->
-
         </ul>
     </aside>

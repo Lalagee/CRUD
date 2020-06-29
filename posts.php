@@ -11,50 +11,92 @@ if(!isset($_SESSION['userid']))
         header('location: Login.php');
           }
 //connect to database
-$host = "localhost";
-$username = "newroot";
-$password = "Test@321";
-$dbname = "phptrainee";
-$connection = mysqli_connect($host,$username,$password,$dbname);
-
-
-if(mysqli_connect_errno()){
-die("database connection failed. Error Number:" .
-mysqli_connect_errno()." Error Type.".mysqli_connect_error());
-                          }
-
-if(isset($_GET['postid']) && $_GET['action'] =="delete")
+class dbfunction
+{
+  public function loginfunction($email,$pwd,$connection)
   {
-    $postid =$_GET['postid'];
+    
+  
+
+        $query = "SELECT id,Uemail,Upass FROM `userregis` WHERE Uemail = '$email' ";
+
+        $result = mysqli_query($connection,$query);
+  
+        $rowcount = mysqli_num_rows($result);
+         if($rowcount == 0)
+          {
+            echo "Email is Not register";
+          }
+       else
+           {
+            while ($col = mysqli_fetch_array($result))
+                 {
+                  $did = $col['id'];
+                  $dpwd = $col['Upass'];
+                  $demail = $col['Uemail'];
+                  if($dpwd == $pwd)
+                     {
+                      session_start();
+                      $_SESSION['userid'] = $did;
+                      $_SESSION['uemail'] = $demail;
+                      $check = $_SESSION['userid'];
+                      
+                      if($check)
+                        {
+                          header('location: index.php');
+                        }
+                      }
+                  else
+                    echo "Password is Incorrect";
+                 }
+           }
+              mysqli_free_result($result);
+              mysqli_close($connection);      
+      
+
+  }
+  public function DeletePost($postid,$connection)
+  {
     $query = "delete from Post where Pid = '$postid' ";
-//var_dump($query);
-//die;
     
     $result = mysqli_query($connection,$query);
     if($result)
         { echo "One Post Deleted Sucessfully";}
 
-    //var_dump($query);
-    //die;
+  }
+}
+
+class connectdb extends dbfunction
+{
+  public function setconnection()
+  {
+    $host = "localhost";
+$username = "newroot";
+$password = "Test@321";
+$dbname = "phptrainee";
+$connection = mysqli_connect($host,$username,$password,$dbname);
+if(mysqli_connect_errno()){
+die("database connection failed. Error Number:" .
+mysqli_connect_errno()." Error Type.".mysqli_connect_error());
+                          }
+        return $connection;
+
+  }
+}
+
+
+if(isset($_GET['postid']) && $_GET['action'] =="delete")
+  {
+    $postid =$_GET['postid'];
+    $conn = new connectdb;
+    $connection =$conn->setconnection();
+    $dfun = new dbfunction;
+    $dfun->DeletePost($postid,$connection);
     
   }
 
   
-//   if(isset($_GET['postid']) && $_GET['action'] =="delete")
-//   {
-//     $postid =$_GET['postid'];
-//     $query = "delete from Post where Pid = '$postid' ";
-// //var_dump($query);
-// //die;
-    
-//     $result = mysqli_query($connection,$query);
-//     if($result)
-//         { echo "One Post Deleted Sucessfully";}
 
-//     //var_dump($query);
-//     //die;
-    
-//   }
 
 ?>
 
@@ -125,6 +167,8 @@ include 'sidebar.php';
                                 <?php
 
 //echo $uid;
+   $conn = new connectdb;
+   $connection =$conn->setconnection();
    $query = "SELECT Pid, title, Description FROM `Post` WHERE id = '$uid'";
    $result1 = mysqli_query($connection,$query);
 
