@@ -71,8 +71,8 @@ class connectdb extends dbfunction
   public function setconnection()
   {
     $host = "localhost";
-$username = "newroot";
-$password = "Test@321";
+$username = "root";
+$password = "";
 $dbname = "phptrainee";
 $connection = mysqli_connect($host,$username,$password,$dbname);
 if(mysqli_connect_errno()){
