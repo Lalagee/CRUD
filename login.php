@@ -14,7 +14,7 @@ class dbfunction
     
   
 
-        $query = "SELECT id,Uemail,Upass FROM `userregis` WHERE Uemail = '$email' ";
+        $query = "SELECT id,Username,Uemail,Upass FROM `userregis` WHERE Uemail = '$email' ";
 
         $result = mysqli_query($connection,$query);
   
@@ -28,6 +28,7 @@ class dbfunction
             while ($col = mysqli_fetch_array($result))
                  {
                   $did = $col['id'];
+                  $uname = $col['Username'];
                   $dpwd = $col['Upass'];
                   $demail = $col['Uemail'];
                   if($dpwd == $pwd)
@@ -39,7 +40,11 @@ class dbfunction
                       
                       if($check)
                         {
-                          header('location: index.php');
+                          if($uname == 'admin')
+                          header('location: admin/material-dashboard-master/examples/dashboard.php');
+                          else
+                          header('location: index.php');  
+
                         }
                       }
                   else
