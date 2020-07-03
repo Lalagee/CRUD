@@ -70,6 +70,17 @@ class dbfunction extends connectdb
         { echo "One Post Deleted Sucessfully";}
 
   }
+  public function SearchUser($search_user,$connection)
+  {
+    $query = "SELECT * FROM `userregis` where Username like '%"$search_user"%'";
+    
+    $result = mysqli_query($connection,$query);
+    if($result)
+    	echo "One Post Deleted Sucessfully";
+
+        
+
+  }
 }
 
 /*$host = "localhost";
@@ -91,12 +102,17 @@ if(isset($_POST['action']) && !empty($_POST['action'])){
    	
    	switch ($_POST['action']) {
    	case 'delete_post':
-   	   		$post_id = $_POST['post_id'];
-    		$dfun->DeletePost($post_id,$connection);
+   	   					$post_id = $_POST['post_id'];
+    					$dfun->DeletePost($post_id,$connection);
 
    		break;
-   	case 2:
-   	   		echo "my value is 2";
+   	case 'search_user':
+   						$search_username = $_POST['s_Userstring'];
+
+   						$dfun->SearchUser($search_username,$connection);
+
+
+   	   		
    		break;
    	case 3:
    	   		echo "my value is 3";

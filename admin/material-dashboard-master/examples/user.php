@@ -106,6 +106,9 @@ The above copyright notice and this permission notice shall be included in all c
                 <div class="card-header card-header-primary">
                   <h4 class="card-title ">Users Detail</h4>
                   <p class="card-category"> All Users With There Posts</p>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a class="card-category" href="user.php?userid=hello&action=view&record=1">
+                       View All Users Posts
+                  </a>
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -129,13 +132,16 @@ The above copyright notice and this permission notice shall be included in all c
                         <th>
                           Delete User
                         </th>
+                        <th>
+                          Edit User
+                        </th>
                       </thead>
                       <tbody>
                         <?php
 
 //echo $uid;
    
-   $query = "SELECT * FROM `userregis`";
+   $query = "SELECT * FROM `userregis` ";
    $result1 = mysqli_query($connection,$query);
 
       //if(empty($result)){
@@ -166,7 +172,7 @@ The above copyright notice and this permission notice shall be included in all c
                             '.$col['Upass'].'
                           </td>
                           <td>
-                            <a href="user.php?userid='.$col['id'].'&action=view">
+                            <a href="user.php?userid='.$col['id'].'&action=view&record=0">
                                             View Posts
                             </a>
                           </td>
@@ -222,9 +228,17 @@ The above copyright notice and this permission notice shall be included in all c
    if(isset($_GET['userid']) && $_GET['action'] =="view")
   {
     $Uid =$_GET['userid'];
-    
+    $user =$_GET['record'];
 
-    $query = "select * from Post where id = '$Uid' ";
+    if($user == 0 )
+    {
+    $query ="SELECT u.Username,p.Pid,p.title,p.Description,p.id 
+FROM userregis u
+INNER JOIN Post p
+ON u.id = p.id
+where u.id ='$Uid'
+ORDER by p.Pid";
+    //$query = "select * from Post where id = '$Uid' ";
     
     $result1 = mysqli_query($connection,$query);
     $rowcount = mysqli_num_rows($result1);
@@ -251,14 +265,54 @@ The above copyright notice and this permission notice shall be included in all c
                           <button type="button" class="dlink" name =postid value='.$col['Pid'].'>Delete</button>
                           </td>
                           <td>
-                            <a href="user.php?postid='.$col['Pid'].'&action=edit">
-                                            Edit Post
-                            </a>
+                            '.$col['Username'].'
                           </td>
                         </tr>';
                     }
             }
-    }                
+      }
+      else
+      {
+        $query ="SELECT u.Username,p.Pid,p.title,p.Description,p.id 
+FROM userregis u
+INNER JOIN Post p
+ON u.id = p.id
+ORDER by u.Username";
+    //$query = "select * from Post where id = '$Uid' ";
+    
+    $result1 = mysqli_query($connection,$query);
+    $rowcount = mysqli_num_rows($result1);
+       if($rowcount == 0)
+       {
+        echo "No Post Yet";
+       }
+       else
+          {
+     while ($col = mysqli_fetch_array($result1))
+                  {
+                  echo '    
+                        <tr id='.$col['Pid'].'>
+                          <td>
+                            '.$col['Pid'].'
+                          </td>
+                          <td>
+                            '.$col['title'].'
+                          </td>
+                          <td>
+                            '.$col['Description'].'
+                          </td>
+                          <td>
+                          <button type="button" class="dlink" name =postid value='.$col['Pid'].'>Delete</button>
+                          </td>
+                          <td>
+                            '.$col['Username'].'
+                          </td>
+                        </tr>';
+                    }
+            }
+      }
+
+   }                
     ?>
                         
                       </tbody>
@@ -331,20 +385,41 @@ The above copyright notice and this permission notice shall be included in all c
             success: function(response){
              $("#"+dataId).remove();
               alert('post deleted');
-            }
-          });
-
-          
-
-          
+                                        }
 
 
+              });
+
+     
+    
+    
+                                 });
+
+
+      $("#search").keyup(function(){
+        //alert ('sstring');
+        var sstring = $(this).attr("value");
+
+        $.ajax({
+            type:"POST",
+            url: "deletepost.php",
+            data: {"s_Userstring":sstring,"action":"search_user"},
+            success: function(response){
+             alert('User Searched');
+                                        }
 
 
 
 
 
-      })
+
+        });
+
+
+
+ });
+
+
       $().ready(function() {
         $sidebar = $('.sidebar');
 
