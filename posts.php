@@ -11,7 +11,25 @@ if(!isset($_SESSION['userid']))
         header('location: Login.php');
           }
 //connect to database
-class dbfunction
+class connectdb 
+{
+  public function setconnection()
+  {
+    $host = "localhost";
+$username = "newroot";
+$password = "Test@321";
+$dbname = "phptrainee";
+$connection = mysqli_connect($host,$username,$password,$dbname);
+if(mysqli_connect_errno()){
+die("database connection failed. Error Number:" .
+mysqli_connect_errno()." Error Type.".mysqli_connect_error());
+                          }
+        return $connection;
+
+  }
+}
+
+class dbfunction extends connectdb 
 {
   public function loginfunction($email,$pwd,$connection)
   {
@@ -66,32 +84,11 @@ class dbfunction
   }
 }
 
-class connectdb extends dbfunction
-{
-  public function setconnection()
-  {
-    $host = "localhost";
-$username = "newroot";
-$password = "Test@321";
-$dbname = "phptrainee";
-$connection = mysqli_connect($host,$username,$password,$dbname);
-if(mysqli_connect_errno()){
-die("database connection failed. Error Number:" .
-mysqli_connect_errno()." Error Type.".mysqli_connect_error());
-                          }
-        return $connection;
-
-  }
-}
 
 
 if(isset($_GET['postid']) && $_GET['action'] =="delete")
   {
-    $postid =$_GET['postid'];
-    $conn = new connectdb;
-    $connection =$conn->setconnection();
-    $dfun = new dbfunction;
-    $dfun->DeletePost($postid,$connection);
+    
     
   }
 
@@ -247,3 +244,16 @@ include 'sidebar.php';
 
 </body>
 </html>
+
+
+<?php
+switch (variable) {
+    case 'value':
+        # code...
+        break;
+    
+    default:
+        # code...
+        break;
+}
+?>

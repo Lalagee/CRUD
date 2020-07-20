@@ -16,9 +16,9 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./typography.html">
-            
-              
+            <a class="nav-link" href="./userpost.php">
+              <i class="material-icons">content_paste</i>
+              <p>User's Post</p>
             </a>
           </li>
           <li class="nav-item ">

@@ -70,17 +70,77 @@ class dbfunction extends connectdb
         { echo "One Post Deleted Sucessfully";}
 
   }
-  public function SearchUser($search_user,$connection)
-  {
-    $query = "SELECT * FROM `userregis` where Username like '%"$search_user"%'";
-    
+   public function SearchUser($search_user,$connection)
+   {
+      $query = "SELECT * FROM `userregis` where Username like '%$search_user%'";
     $result = mysqli_query($connection,$query);
-    if($result)
-    	echo "One Post Deleted Sucessfully";
+    if(mysqli_num_rows($result) > 0){
+    	 while ($row = mysqli_fetch_array($result) ) {
+          ?>            
+          <tr>
+            <td><?= $row['id']; ?></td>
+            <td><?= $row['Username']; ?></td>
+            <td><?= $row['Uemail']; ?></td>
+            <td><?= $row['Upass']; ?></td>
+            <td><a href="user.php?userid=<?=$row['id'];?>&action=view&record=0">
+                                            View Posts
+                            </a>
+            </td>
+            <td><a href="user.php?userid=<?=$row['id'];?>&action=delete">
+                                            Delete User
+                            </a>
+            </td>
+                          
+          </tr>
+      
+         
+          <?php
+       }
+    }
+    else{
+      ?>
+        <tr>
+            <td colspan="6">No record found</td>
+          </tr>
+          <?php
+    }
 
         
 
-  }
+   }
+   public function ViewUserPost($s_userid,$connection)
+   {
+      $query = "SELECT * FROM `Post` where id= '$s_userid'";
+    $result = mysqli_query($connection,$query);
+    if(mysqli_num_rows($result) > 0){
+    	 while ($row = mysqli_fetch_array($result) ) {
+          ?>            
+          <tr>
+            <td><?= $row['Pid']; ?></td>
+            <td><?= $row['title']; ?></td>
+            <td><?= $row['Description']; ?></td>
+            <td><a href="userpost.php?userid=<?=$row['id'];?>&action=delete">
+                                            Delete Post
+                            </a>
+            </td>
+                          
+          </tr>
+      
+         
+          <?php
+       }
+    }
+    else{
+      ?>
+        <tr>
+            <td colspan="4">No Postfound</td>
+          </tr>
+          <?php
+    }
+
+        
+
+   }
 }
 
 /*$host = "localhost";
@@ -107,12 +167,14 @@ if(isset($_POST['action']) && !empty($_POST['action'])){
 
    		break;
    	case 'search_user':
-   						$search_username = $_POST['s_Userstring'];
-
+  						$search_username = $_POST['s_Userstring'];
    						$dfun->SearchUser($search_username,$connection);
+   						break;
 
-
-   	   		
+   	case 'user_posts':
+  						$s_userid = $_POST['s_Userid'];
+   						$dfun->ViewUserPost($s_userid,$connection);
+  		
    		break;
    	case 3:
    	   		echo "my value is 3";
