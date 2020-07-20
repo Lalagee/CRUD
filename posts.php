@@ -84,6 +84,26 @@ class dbfunction extends connectdb
   }
 }
 
+<<<<<<< HEAD
+=======
+class connectdb extends dbfunction
+{
+  public function setconnection()
+  {
+    $host = "localhost";
+$username = "root";
+$password = "";
+$dbname = "phptrainee";
+$connection = mysqli_connect($host,$username,$password,$dbname);
+if(mysqli_connect_errno()){
+die("database connection failed. Error Number:" .
+mysqli_connect_errno()." Error Type.".mysqli_connect_error());
+                          }
+        return $connection;
+
+  }
+}
+>>>>>>> 70d94a9ede05251837fa23d09dbba2f0171d8d89
 
 
 if(isset($_GET['postid']) && $_GET['action'] =="delete")

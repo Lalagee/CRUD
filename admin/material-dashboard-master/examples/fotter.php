@@ -33,8 +33,12 @@
           </div>
         </div>
       </footer>
+<<<<<<< HEAD
 
  <script src="../assets/js/core/jquery.min.js"></script>
+=======
+      <script src="../assets/js/core/jquery.min.js"></script>
+>>>>>>> 70d94a9ede05251837fa23d09dbba2f0171d8d89
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
@@ -76,6 +80,7 @@
   <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
+<<<<<<< HEAD
   
 
   <input type="" name="" value="">
@@ -150,3 +155,26 @@
 
 
 
+=======
+  <input type="" name="" value="">
+  <button value=""></button>
+      <script type="text/javascript">
+
+           $("#search").keyup(function(){
+            var sstring = $(this).val();
+          $.ajax({
+              type:"POST",
+              url: "deletepost.php",
+              data: {"s_Userstring":sstring,"action":"search_user"},
+              success: function(response){
+                console.log(response);
+                    $("#apna-table").html(response);
+                  },
+              error: function(error){
+                console.log(error);
+              }
+          });
+  });
+
+      </script>
+>>>>>>> 70d94a9ede05251837fa23d09dbba2f0171d8d89

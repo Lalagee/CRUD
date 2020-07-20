@@ -4,8 +4,8 @@ class connectdb
   public function setconnection()
   {
     $host = "localhost";
-$username = "newroot";
-$password = "Test@321";
+$username = "root";
+$password = "";
 $dbname = "phptrainee";
 $connection = mysqli_connect($host,$username,$password,$dbname);
 if(mysqli_connect_errno()){
@@ -21,9 +21,6 @@ class dbfunction extends connectdb
 {
   public function loginfunction($email,$pwd,$connection)
   {
-    
-  
-
         $query = "SELECT id,Uemail,Upass FROM `userregis` WHERE Uemail = '$email' ";
 
         $result = mysqli_query($connection,$query);
@@ -67,9 +64,12 @@ class dbfunction extends connectdb
     
     $result = mysqli_query($connection,$query);
     if($result)
-        { echo "One Post Deleted Sucessfully";}
+        { echo "One Post Deleted Sucessfully";
+      exit();
+    }
 
   }
+<<<<<<< HEAD
    public function SearchUser($search_user,$connection)
    {
       $query = "SELECT * FROM `userregis` where Username like '%$search_user%'";
@@ -77,10 +77,21 @@ class dbfunction extends connectdb
     if(mysqli_num_rows($result) > 0){
     	 while ($row = mysqli_fetch_array($result) ) {
           ?>            
+=======
+  public function SearchUser($search_user,$connection)
+  {
+    
+    $query = "SELECT * FROM `userregis` where Username like '%$search_user%'";
+    $result = mysqli_query($connection,$query);
+    if(mysqli_num_rows($result) > 0){
+    	 while ($row = mysqli_fetch_array($result) ) {
+          ?>
+>>>>>>> 70d94a9ede05251837fa23d09dbba2f0171d8d89
           <tr>
             <td><?= $row['id']; ?></td>
             <td><?= $row['Username']; ?></td>
             <td><?= $row['Uemail']; ?></td>
+<<<<<<< HEAD
             <td><?= $row['Upass']; ?></td>
             <td><a href="user.php?userid=<?=$row['id'];?>&action=view&record=0">
                                             View Posts
@@ -93,6 +104,9 @@ class dbfunction extends connectdb
                           
           </tr>
       
+=======
+          </tr>
+>>>>>>> 70d94a9ede05251837fa23d09dbba2f0171d8d89
          
           <?php
        }
@@ -100,7 +114,11 @@ class dbfunction extends connectdb
     else{
       ?>
         <tr>
+<<<<<<< HEAD
             <td colspan="6">No record found</td>
+=======
+            <td colspan="7">No record found</td>
+>>>>>>> 70d94a9ede05251837fa23d09dbba2f0171d8d89
           </tr>
           <?php
     }
@@ -167,6 +185,7 @@ if(isset($_POST['action']) && !empty($_POST['action'])){
 
    		break;
    	case 'search_user':
+<<<<<<< HEAD
   						$search_username = $_POST['s_Userstring'];
    						$dfun->SearchUser($search_username,$connection);
    						break;
@@ -175,6 +194,11 @@ if(isset($_POST['action']) && !empty($_POST['action'])){
   						$s_userid = $_POST['s_Userid'];
    						$dfun->ViewUserPost($s_userid,$connection);
   		
+=======
+   						$search_username = $_POST['s_Userstring'];
+   						$dfun->SearchUser($search_username,$connection);
+   	   		
+>>>>>>> 70d94a9ede05251837fa23d09dbba2f0171d8d89
    		break;
    	case 3:
    	   		echo "my value is 3";

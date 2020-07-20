@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
-$username = "newroot";
-$password = "Test@321";
+$username = "root";
+$password = "";
 $dbname = "phptrainee";
 $connection = mysqli_connect($host,$username,$password,$dbname);
 if(mysqli_connect_errno()){
@@ -112,7 +112,11 @@ The above copyright notice and this permission notice shall be included in all c
                 </div>
                 <div class="card-body">
                   <div class="table-responsive">
+<<<<<<< HEAD
                     <table  class="table">
+=======
+                    <table id="apna-table" class="table">
+>>>>>>> 70d94a9ede05251837fa23d09dbba2f0171d8d89
                       <thead class=" text-primary">
                         <th>
                           User ID
@@ -350,9 +354,17 @@ ORDER by u.Username";
      
     
     
+<<<<<<< HEAD
         });
 
 
+=======
+                                 });
+
+
+   
+
+>>>>>>> 70d94a9ede05251837fa23d09dbba2f0171d8d89
       $().ready(function() {
         $sidebar = $('.sidebar');
 
