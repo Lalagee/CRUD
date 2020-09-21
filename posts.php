@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 //include('header.php');
 
     session_start();
@@ -8,7 +11,7 @@
 
 if(!isset($_SESSION['userid']))
           {
-        header('location: Login.php');
+        header('location: login.php');
           }
 //connect to database
 class connectdb 
@@ -16,15 +19,15 @@ class connectdb
   public function setconnection()
   {
     $host = "localhost";
-$username = "newroot";
-$password = "Test@321";
-$dbname = "phptrainee";
-$connection = mysqli_connect($host,$username,$password,$dbname);
-if(mysqli_connect_errno()){
-die("database connection failed. Error Number:" .
-mysqli_connect_errno()." Error Type.".mysqli_connect_error());
-                          }
-        return $connection;
+  $username = "newroot";
+  $password = "Test@321";
+  $dbname = "phptrainee";
+  $connection = mysqli_connect($host,$username,$password,$dbname);
+  if(mysqli_connect_errno()){
+  die("database connection failed. Error Number:" .
+  mysqli_connect_errno()." Error Type.".mysqli_connect_error());
+                            }
+          return $connection;
 
   }
 }
@@ -34,12 +37,8 @@ class dbfunction extends connectdb
   public function loginfunction($email,$pwd,$connection)
   {
     
-  
-
         $query = "SELECT id,Uemail,Upass FROM `userregis` WHERE Uemail = '$email' ";
-
         $result = mysqli_query($connection,$query);
-  
         $rowcount = mysqli_num_rows($result);
          if($rowcount == 0)
           {
@@ -84,33 +83,21 @@ class dbfunction extends connectdb
   }
 }
 
-<<<<<<< HEAD
-=======
-class connectdb extends dbfunction
-{
-  public function setconnection()
-  {
-    $host = "localhost";
-$username = "root";
-$password = "";
-$dbname = "phptrainee";
-$connection = mysqli_connect($host,$username,$password,$dbname);
-if(mysqli_connect_errno()){
-die("database connection failed. Error Number:" .
-mysqli_connect_errno()." Error Type.".mysqli_connect_error());
-                          }
-        return $connection;
 
-  }
-}
->>>>>>> 70d94a9ede05251837fa23d09dbba2f0171d8d89
 
 
 if(isset($_GET['postid']) && $_GET['action'] =="delete")
-  {
+{
+
     
+    $conn = new connectdb;
+    $connection =$conn->setconnection();
     
-  }
+    $postid =$_GET['postid'];
+
+    $dfun = new dbfunction;
+    $dfun->DeletePost($postid,$connection);
+}
 
   
 
@@ -264,16 +251,3 @@ include 'sidebar.php';
 
 </body>
 </html>
-
-
-<?php
-switch (variable) {
-    case 'value':
-        # code...
-        break;
-    
-    default:
-        # code...
-        break;
-}
-?>

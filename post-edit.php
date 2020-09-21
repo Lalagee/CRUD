@@ -5,7 +5,7 @@
     $uemail = $_SESSION['uemail'];
 
 if(!isset($_SESSION['userid'])){
-        header('location: Login.php');
+        header('location: login.php');
 }
 //connect to database
 class connectdb 
@@ -13,8 +13,8 @@ class connectdb
   public function setconnection()
   {
     $host = "localhost";
-$username = "root";
-$password = "";
+$username = "newroot";
+$password = "Test@321";
 $dbname = "phptrainee";
 $connection = mysqli_connect($host,$username,$password,$dbname);
 if(mysqli_connect_errno()){
@@ -78,7 +78,11 @@ class dbfunction extends connectdb
   }
   public function DeletePost($postid,$connection)
   {
-    $query = "delete from Post where Pid = '$postid' ";
+
+    $query = "delete from Post where Pid =".$postid;
+    var_dump($query);
+
+
     
     $result = mysqli_query($connection,$query);
     if($result)
@@ -106,6 +110,25 @@ class dbfunction extends connectdb
 
   // } 
 }
+
+
+if(isset($_GET['postid']) && $_GET['action'] =="delete")
+{
+
+    //var_dump($_GET['postid']);
+    //exit();
+    
+    $conn = new connectdb;
+    $connection =$conn->setconnection();
+    
+    $postid =$_GET['postid'];
+
+    $dfun = new dbfunction;
+    $dfun->DeletePost($postid,$connection);
+}
+
+ 
+
 
 if(isset($_GET['postid']) && $_GET['action'] =="edit")
 {
@@ -217,7 +240,7 @@ include 'sidebar.php';
                             <div class="form-row">
                                 <div class="form-group col-12 col-md-6">
                                     <label for="name">Title</label>
-                                    <input type="text" class="form-control" value=<?php echo $dtitle;  ?> id="name" name="name" placeholder="User Name">
+                                    <input type="text" class="form-control" value="<?php echo $dtitle;  ?>" id="name" name="name">
                                 </div>
                                 <div class="form-group col-12 col-md-6">
                                     <label for="email">Description</label>

@@ -10,19 +10,9 @@ if(!isset($_SESSION['userid']))
           }
 //connect to database
 include 'connectdb.php';
+
         
 ?>
-
-
-
-
-
-
-
-
-
-
-
 
 
 

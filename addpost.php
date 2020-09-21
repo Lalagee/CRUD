@@ -6,16 +6,16 @@
 
 if(!isset($_SESSION['userid']))
           {
-        header('location: Login.php');
+        header('location: login.php');
           }
 //connect to database
 class connectdb 
 {
   public function setconnection()
   {
-    $host = "localhost";
-$username = "root";
-$password = "";
+$host = "localhost";
+$username = "newroot";
+$password = "Test@321";
 $dbname = "phptrainee";
 $connection = mysqli_connect($host,$username,$password,$dbname);
 if(mysqli_connect_errno()){
@@ -108,7 +108,8 @@ class dbfunction extends connectdb
   
 
 
-   } 
+   }
+
 }
 
 $conn = new connectdb;
